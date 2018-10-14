@@ -85,7 +85,7 @@ By adding a rigidbody to an object, we let it experience physics. This means the
 ### Tags
 We can add tags to gameobjects in Unity. These are used to help identify GameObjects for scripting purposes. Click on Player, and in the Inspector, you can find this box: 
 
-<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/tags.png" width=200>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/tags.png" width=500>
 
 When you click the "Untagged" box, a dropdown menu will appear with your tag options. Select Player, and now your player will be tagged!
 
