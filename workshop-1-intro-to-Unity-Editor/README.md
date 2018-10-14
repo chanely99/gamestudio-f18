@@ -12,19 +12,19 @@
  *fill this in
 
 ## Setting up Unity
-### 1. Download Unity [here](https://unity3d.com/get-unity/download)
-### 2. After opening, select 'new'
-### 3. Type "Rollerball" under Project name
-### 4. Select 3D, then click on 'Create project'
+#### 1. Download Unity [here](https://unity3d.com/get-unity/download)
+#### 2. After opening, select 'new'
+#### 3. Type "Rollerball" under Project name
+#### 4. Select 3D, then click on 'Create project'
 
 ## The Unity Editor
-> <img src= "fillthisin" width=400>
+> <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/editor.png" width=400>
 ### Scene View(Blue)
 This window lets you see what you're creating in Unity. Through the scene view, you can select and edit game objects in the scene. 
 
 ### Game View and Console(Orange)
 This lets you see how your scene will play out when you press play. You can also change this windo to show the Console by selecting the Console tab. The console will show errors and warnings upon compiling your game's scripts. You can also use the console to print statements for debugging. 
-
+ 
 ### File System(Red)
 Under this window you can see the files you currently have in this project. You can (and should) also create folders to organize the scripts, scenes, gameobjects, artwork, and other assets your project uses. 
 
@@ -40,11 +40,11 @@ Hold right-click, and use the WASD keys to move forwards, left, backwards, and r
 First we want to create an "arena" for our rollerball game. To do this, we can use the default gameobjects Unity provides us with. Click on the Create tab under the Hierarchy, then on the pop-up click on 3D Object->Plane. After clicking, the plane should pop up in your scene view. 
 
 #### Move tool
-Select > <img src= "fillthisin" width=20> or press the W key. This will let you move gameobjects you select. If you have other gameobjects in the scene, holding v will allow you to select corners of the object and snap to vertices of other objects in the scene. You can specify the location in the Inspector. 
+Select > <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/move.png" width=20> or press the W key. This will let you move gameobjects you select. If you have other gameobjects in the scene, holding v will allow you to select corners of the object and snap to vertices of other objects in the scene. You can specify the location in the Inspector. 
 #### Rotate tool
-Select > <img src= "fillthisin" width=20> or press the E key. This will let ou rotate the object along an X, Y, and Z axis. You can select and pull the lines around the gameobject, or specify the values in the Inspector. 
+Select > <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/rotate.png" width=20> or press the E key. This will let ou rotate the object along an X, Y, and Z axis. You can select and pull the lines around the gameobject, or specify the values in the Inspector. 
 #### Scale tool
-Select > <img src= "fillthisin" width=20> or press the R key. This will let you change the scale of the object in the X, Y, and Z direction. You can also specify the values in the Inspector. 
+Select > <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/scale.png" width=20> or press the R key. This will let you change the scale of the object in the X, Y, and Z direction. You can also specify the values in the Inspector. 
 
 ### The "Walls"
 Using the above tools, we can construct the walls for our rollerball's arena. If you moved your plane, make sure it is at position (0, 0, 0).Click on the Create tab, then on the pop up click on 3D Object-> Cube. Repeat this three times, then enter these values for each: 
