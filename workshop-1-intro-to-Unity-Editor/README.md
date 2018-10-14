@@ -48,15 +48,15 @@ Select <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/worksh
 
 ### The "Walls"
 Using the above tools, we can construct the walls for our rollerball's arena. If you moved your plane, make sure it is at position (0, 0, 0).Click on the Create tab, then on the pop up click on 3D Object-> Cube. Repeat this three times, then enter these values for each: 
-..* pos = (5.25, 0.5, 0), scale = (0.5, 1, 11)
-..* pos = (-5.25, 0.5, 0), scale = (0.5, 1, 11)
-..* pos = (0, 0.5, 5.25), scale = (10, 1, 0.5)
-..* pos = (0, 0.5, -5.25), scale = (10, 1, 0.5)
+* pos = (5.25, 0.5, 0), scale = (0.5, 1, 11)
+* pos = (-5.25, 0.5, 0), scale = (0.5, 1, 11)
+* pos = (0, 0.5, 5.25), scale = (10, 1, 0.5)
+* pos = (0, 0.5, -5.25), scale = (10, 1, 0.5)
 
 ### The "Arena"
 Technically, we could end this section and leave the arena as it is. But that means we have a plane and 4 cubes cluttering the Hierarchy. This is how chaos wins, and we can't have that. We can fit these objects into a single object we can call arena. Click on Create, then on Create Empty. An Empty is just a gameobject with nothing in it. Double-click on the empty (it should be called GameObject in the hierarchy), then rename it "Arena". Then you can drag your plane and cubes to go under the Arena object like so: 
 
-<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/arena.png"" width=100>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/arena.png" width=200>
 
 We can also reset the position of the arena by going into its inspector, clicking on the gear to the right, and clicking on "transform".
 
@@ -79,14 +79,18 @@ Create a sphere (Create-> 3D Object -> Sphere), and rename it "Player". Set its 
 ### Rigidbodies
 By adding a rigidbody to an object, we let it experience physics. This means the object can be pulled down by gravity, and react to collisions(if there's also a Collider). Without the Rigidbody, gameobjects won't be able to move.
 
-###Programming Terms
-So we are going to code a bit for our PlayerController Script, so here are some terms used in programming: 
+### Unity Programming Terms
+So we are going to code a bit for our PlayerController Script, so here are some terms used in programming for Unity: 
 
 variable: like a variable in math, but can hold values other than just numbers. In C#, the language Unity uses, the variable's type and name have to be declared.
 
-float: a value that can have a fractional value(i.e. 2.34, 7.92, 6.44). 
-### PlayerController Script
-Under the File Manager, click Create -> C# Script. Rename the script "PlayerController", and double click it to launch the code editor. This will be Visual Studio if you have a Windows, or MonoDevelop if you have a mac. The code should look like this: 
+private and public variables: Public variables are visible to all classes. Other classes or objects can access them. Private variables can only be used by the class they're in. Public variables can also be edited in the Unity Editor under the Inspector. 
+
+float: a value that can have a fractional value(i.e. 2.34, 7.92, 6.44)
+
+function: Basically a block of code with a name. This allows us to write blocks of code that do different things separately, which makes it easier to write and debug. You can call functions(aka run them) in other functions. 
+### PlayerController Script 
+Under the File Manager, click Create -> C# Script. Rename the script "PlayerController", and double click it to launch the code editor. This will be Visual Studio if you have a windows, or MonoDevelop if you have a mac. The code should look like this: 
 ```cs
 using System.Collections;
 using System.Collections.Generic;
@@ -107,10 +111,57 @@ public class NewBehaviourScript : MonoBehaviour {
 ```
 The important parts of this script that we're going to focus on is the Start and Update methods. Any code inside the brackets after "void Start" will be called once and immediately after the scene is played. Any code inside the brackets after "void Update" will be called every frame while the game is playing.
 
+Add this code after "usingUnityEngine;" and before "public class": 
 ```cs
-	RequireComponent(typeof(Rigidbody));
-
+	[RequireComponent(typeof(Rigidbody))]
 ``` 
+This will require the player to have a Rigidbody, so that we can use physics to move it around. 
+
+Add this code to the inside of void Start: 
+```cs
+	[Range(50, 200)]
+	public float speed = 100; 
+	private Rigidbody rb = GetComponent<Rigidbody>();  
+	
+```
+The second line creates a float variable that we'll use to determine the speed of the player. The first line makes sure it's always between 50 and 200. The third line creates a variable named rb that is of the type rigidbody, and assigns the it to be the rigidbody that we've attached to the player. 
+
+Add this code to the inside of void Update: 
+```cs
+	float x = Input.GetAxis("Horizontal"); 
+	float z = Input.GetAxis("Vertical");
+
+	rb.AddForce(new Vector3(x, 0, z) * Time.deltaTime * speed); 
+```
+Input.GetAxis() is a built-in method by Unity that detects whether or not the player is pressing WASD or the arrow keys. It will return a value between -1 and 1, 1 being up or right, -1 being down or left. We're creating the variables horizontal and vertical to hold these values. 
+
+In the third line, we are creating a Vector3 variable with the x and z values being horizontal and vertical respectively. Y is zero because we don't want the player to move the ball up and down. 
+
+The last line uses the rigidbody (remember we stored that in the variable rb) to add a force to the ball using a vector made with the x and z inputs. By multiplying this by Time.deltaTime, we make our game frame rate independent. (i.e. we make the player move x units per second rather than x units per frame). We then multiply it by our speed variable. 
+
+
 ## Moving the Camera
+Create a new script called "CameraController" the same way we made the Playercontroller. Before the Start method, add: 
+```cs
+	public Transform player; 
+	private Vector3 offset; 
+```
+A transform stores a GameObject's position, rotation, and scale. The camera will need to know the player's position so it can follow the player. 
+
+A Vector3 is how Unity represents 3D vectors and points. If you're unfamiliar with [vectors](https://www.youtube.com/watch?v=bOIe0DIMbI8&feature=youtu.be&t=19) from math, they're just lines that have a designated length and direction. We're going to use it to designate how far away and at what angle the camera should be from the player at all times. 
+
+Add this code to the inside of void Start: 
+```cs
+	offset = this.transform.position - player.position;
+```
+
+This sets the offset vector to be the distance and angle the camera is away from the player at the start of the scene. 
+
+Add this code to the inside of void Update: 
+```cs
+	this.transform.position = player.position + offset;
+```
+
+This sets the camera's position to be the same as the player's, but weith the offset. Since it's in the Update method, it makes sure that the camera is always the same distance away from the player. 
 
 ## Pickups
