@@ -7,9 +7,9 @@
 * [Unity Official Reference](https://docs.unity3d.com/Manual/index.html)
 
 # Workshop Content
- *Unity Editor UI
- *Creating Objects
- *Writing a Basic PlayerController and CameraController
+ * Unity Editor UI
+ * Creating Objects
+ * Writing a Basic PlayerController and CameraController
 
 ## Setting up Unity
 #### 1. Download Unity [here](https://unity3d.com/get-unity/download)
@@ -56,7 +56,7 @@ Using the above tools, we can construct the walls for our rollerball's arena. If
 ### The "Arena"
 Technically, we could end this section and leave the arena as it is. But that means we have a plane and 4 cubes cluttering the Hierarchy. This is how chaos wins, and we can't have that. We can fit these objects into a single object we can call arena. Click on Create, then on Create Empty. An Empty is just a gameobject with nothing in it. Double-click on the empty (it should be called GameObject in the hierarchy), then rename it "Arena". Then you can drag your plane and cubes to go under the Arena object like so: 
 
-<img src= "fillthisin"" width=100>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-1-intro-to-Unity-Editor/arena.png"" width=100>
 
 We can also reset the position of the arena by going into its inspector, clicking on the gear to the right, and clicking on "transform".
 
