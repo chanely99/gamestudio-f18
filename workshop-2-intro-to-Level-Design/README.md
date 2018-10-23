@@ -5,6 +5,7 @@
 * [Download Unity](https://unity3d.com/get-unity/download)
 * [Screencast of last year's workshop](https://www.youtube.com/watch?v=GqUyJ3tX6ew&t=6s)
 * [Unity Official Reference](https://docs.unity3d.com/Manual/index.html)
+* Scripts created in this workshop are at the bottom of this page
 
 # Workshop Content
  * Bouncepad powerup
@@ -20,17 +21,19 @@ Assets are files that can be used in your game or project. These include scripts
 
 (A)Select Assets -> Import Package -> Prototyping. (B)Click on it, and an Import window should pop up. Select Import, and Unity will import the assets for you. (This will take a bit, don't worry) (C)Once downloaded, a folder labeled "Standard Assets" will pop up in your project window. 
 
-#Creating our Level
+If hovering over Import Package doesn't show the Prototyping option, you'll need to download the Prototyping package [here](https://drive.google.com/file/d/1wIDe7P7FBw4ipRtb5xzm1dstTN6_E41P/view?usp=drive_open&fbclid=IwAR1_kR_26vu_2KuG4iLe0g1MpVJVXZj2_EryA7nGzSqr-H7PJD_1lb-KwD8). Clicking on it will open it up in Unity, and you will be able to follow steps (B) and ().
+
+# Creating our Level
 
 First, we want to make our player a prefab. Remember that we make gameobjects that we want to reuse into prefabs, or templates. Do that by going into the Hierarchy, clicking on the player, then dragging and dropping it into your Prefabs folder. 
 
-We then can make a new scene for our workshop by going to Create -> Scene. (the one under the Project Window, not the Hierarchy) Rename this scene BetterScene, and double click it to enter. We should have a new, empty scene to work with. 
+We then can make a new scene for our workshop by going to Create -> Scene. (the one under the Project Window, not the Hierarchy) Rename this scene Level_1, and double click it to enter. We should have a new, empty scene to work with. 
 
 We can start making our level with the assets we just imported In your Project window, go to Standard Assets -> Prototyping -> Prefabs -> FloorPrototype04x01x04. Be sure that you got the floor from the Prefabs folder, not the Models folder, since the one in the Models folder will not have a collider, and the player will just fall through. Drag that into your level. Next, go to the Prefabs folder, and drag our Player into the scene. 
 
 Go to the Hierarchy and select the Main Camera. In the Inspector, select Add Component, and type in CameraController. Add this to the Main Camera by pressing Enter, then like before, click and drag the Player from the Hierarchy to the box labeled "None (Transform)". Move and Rotate the Camera until you're happy with where it is. (Don't remember how to move objects? Click [here](https://github.com/uclaacm/gamestudio-f18/tree/master/workshop-1-intro-to-Unity-Editor#manipulating-gameobjects-and-making-the-arena) )
 
-Add two more of the FloorPrototype04x01x04 into the scene in the forward direction. To check which way is forward, just click Play, then move forward. Remember you can(and should) move using the X, Y, and Z arrows. You can also select and snap to vertices by holding down v to select the vertex, and moving it near other gameobjects in the scene. When moving objects with the arrows, you can also hold down the Control button(Command on Mac) to move unit by unit. 
+Add two more of the FloorPrototype04x01x04 into the scene in the forward direction. To check which way is forward, just click Play, then move forward. Remember you can (and should) move using the X, Y, and Z arrows. You can also select and snap to vertices by holding down v to select the vertex, and moving it near other gameobjects in the scene. When moving objects with the arrows, you can also hold down the Control button(Command on Mac) to move unit by unit. 
 
 Since we're going to make a jump powerup, let's make a wall for our player to overcome. Go into Standard Assets -> Prefabs and select CubePrototype04x04x04, and drag it into our scene. Move it to the end of your level, and hold down v when moving it so it can snap to your floor. Go into Standard Assets -> Prefabs and select FloorPrototype08x01x08 and drag it into your scene as well, and move it to the top of the wall. Your scene should now look like this: 
 
@@ -39,9 +42,9 @@ Since we're going to make a jump powerup, let's make a wall for our player to ov
 # Bounce Pad
 
 ### Making the Bounce Pad
-Let's create our super jump powerup. Under Hierarchy, select Create -> 3D Object -> Plane. Drag it into the scene on the floor in front of the player. Double click on it in the Hierarchy, and rename it to "Bounce Pad". Like with our Player and Powerup, we will probably want to use more than one of these, so we should make it a prefab too. Click and drag it into our Prefabs folder.
+Let's create our bounce pad powerup. Under Hierarchy, select Create -> 3D Object -> Plane. Drag it into the scene on the floor in front of the player. Double click on it in the Hierarchy, and rename it to "Bounce Pad". Make the scale (.1, .1, .1) and move it to the bottom of the wall. Like with our Player and Powerup, we will probably want to use more than one of these, so we should make it a prefab too. Click and drag it into our Prefabs folder.
 
-Next, we can make make give it color with a Material. Remember that we can make a material by selecting Create -> Material in the Project Window. Rename this Material "super jump", make sure it's in the Materials folder, then make it whatever color you want. (Click [here](https://github.com/uclaacm/gamestudio-f18/tree/master/workshop-1-intro-to-Unity-Editor#materials) if you forgot how) Add the Material to the Bounce Pad by dragging and dropping it onto the Bounce Pad. 
+Next, we can make make give it color with a Material. Remember that we can make a material by selecting Create -> Material in the Project Window. Rename this Material "super jump", make sure it's in the Materials folder, then make it whatever color you want. (Click [here](https://github.com/uclaacm/gamestudio-f18/tree/master/workshop-1-intro-to-Unity-Editor#materials) for more on Materials) Add the Material to the Bounce Pad by dragging and dropping it onto the Bounce Pad. 
 
 ### Bounce Pad Script
 Before we go into our Bounce script, let's review PickupController from last workshop. The code for that script looks like: 
@@ -56,7 +59,7 @@ public class PickupController : MonoBehaviour {
 	}
 }
 ```
-We're going to basically use the same logic, but instead of destroying the bounce pad when the player touches it, we want to make our ball jump up high. 
+We're going to basically use the same logic to do something if the player collides with the powerup, but instead of destroying the bounce pad when the player touches it, we want to make our ball jump up high. 
 
 So let's actually write the script. Like before, go into the scripts folder, then create a new script by clicking on Create -> C# Script. Rename the script Bounce, and double click it to launch Visual Studio or MonoDevelop. Delete the Start and Update methods, and replace them with: 
 
@@ -85,7 +88,7 @@ The first line, if you remember from the [PlayerController script](https://githu
 
 Be sure to save the script before exiting back to the editor. Be sure to add the script to the Bouncepad by clicking it in the Hierarchy, then in the Inspector Add Component -> Bounce. Then, like the pickup, we need to make it a trigger. Under the Inspector and under Mesh Collider, check the box next to Convex, then the box next to Is Trigger. We need to check the extra Convex box because the plane comes with a Mesh Collider instead of a box collider, and by checking it we make sure our collider doesn't have any holes. Remember that we clicked the Is Trigger box to make sure our pad can detect if the player passed through. 
 
-Click Play, then roll over to the bounce pad. Your player will shoot into the air! Make your bouncepad a prefab by dragging it from the Hierarchy to the Prefabs folder, then stick as many as you want into the scene. :)
+Click Play, then roll over to the bounce pad. Your player will shoot into the air! Make your bouncepad a prefab by dragging it from the Hierarchy to the Prefabs folder, then stick as many as you want into the scene. 
 
 # Respawning 
 The powerup is great, but the game basically ends any time the player falls off, since you're basically falling forever until we restart the game. Because we aren't terrible people, we want to fix that for our player. 
@@ -93,7 +96,7 @@ The powerup is great, but the game basically ends any time the player falls off,
 ### Setting up the Boundary
 What we're going to do is basically have a giant plane under the level, and whenever the player falls down and hits the plane, we want to make the player "teleport" to their original position in the level. 
 
-Add a Plane into the scene by clicking on Create -> 3D Object -> Plane. Click on it, then in the Inspector, then uncheck the box next to Mesh Renderer. This makes the plane "disappear", but it's still there, it's just not being rendered by Unity. Like our BouncePad, we want our Respawn plane to be able to detect if a player hits it, so under Mesh Collider, check the box next to Convex, then the box next to Is Trigger. We also want to make our plane really big, so under Transform, change the Scale values to (10, 1, 10). Move the plane to under our level so it looks like this: 
+Add a Plane into the scene by clicking on Create -> 3D Object -> Plane. Move it so it's under the level we've built. Click on it, then in the Inspector, then uncheck the box next to Mesh Renderer. This makes the plane "disappear", but it's still there, it's just not being rendered by Unity. Like our BouncePad, we want our Respawn plane to be able to detect if a player hits it, so under Mesh Collider, check the box next to Convex, then the box next to Is Trigger. We also want to make our plane really big, so under Transform, change the Scale values to (10, 1, 10). Move the plane to under our level so it looks like this: 
 
 <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-2-intro-to-Level-Design/respawn.png" width=600>
 
@@ -127,15 +130,15 @@ void OnTriggerEnter(Collider other)
         }
     }
 ```
-Remember that this function runs whenever the player runs into our respawn plane. Like the other powerups, the function checks if the gameObject that collided with it is the Player by cheking the tag. Then, it gets stores the rigidbody of the player into the variable rb. Then, it assigns the position of rb(the player) to the startposition, effectively teleporting the player to where they started. Finally, it assigns rb to have a velocity of 0, so that the player doesn't have their falling velocity when they start over. 
+Remember that this function runs whenever the player runs into our respawn plane. Like the other powerups, the function checks if the gameObject that collided with it is the Player by checking the tag. Then, it gets stores the rigidbody of the player into the variable rb. Then, it assigns the position of rb (the player's rigidbody) to the startposition, effectively teleporting the player to where they started. Finally, it assigns rb to have a velocity of 0, so that the player doesn't have their falling velocity when they start over. 
 
 # Pickups Counter (yay UI!)
 ### Setting up the UI
 For the next part of the workshop, let's work on making a simple UI to show how many pickups we've gotten. 
 
-First, we want to make a UI text. Do this by clicking on Create -> UI -> Text. Notice that the text is under something called Canvas in the hierarchy, and that something called EventSystem appeared in the Hierarchy as well. In Unity, the Canvas is basically a skeleton object that holds all our UI objects. EventSystem handles events in a Unity scene, and can be used for more complicted things than we're covering for now. 
+First, we want to make a UI text. Do this by clicking on Create -> UI -> Text. Notice that the text is under something called Canvas in the hierarchy, and that something called EventSystem appeared in the Hierarchy as well. In Unity, the Canvas is basically a skeleton object that holds all our UI objects. EventSystem handles events in a Unity scene, and can be used for more complicated things than we're covering for now. 
 
-Move the text to the corner of the screen by setting the position to (350, 125, 0). In the Inspector, in the box under Text, change the text to "Pickups Collected"
+UI elements aren't in the scene like gameObjects are. To see them in the scene, zoom out until you see a large grey rectangle with your text there. Be sure to only move the text in the x and y directions, since the UI is in 2D. Move the text to the corner of the screen by setting the position to (350, 125, 0). In the Inspector, in the box under Text, change the text to "Pickups Collected"
 
 ### TextController Script
 In order to update the pickup counter, we need to add a textcontroller script to our text. Create one under Scripts, and open it in your code editor. At the very top, under "using Unity Engine;", add: 
@@ -161,7 +164,7 @@ m_text = GetComponent<Text>();
 pickups = GameObject.FindGameObjectsWithTag("Pickup");
 total = pickups.Length;
 ```
-The first line assigns m_text to be the text component of the text this script is attached to. The second line uses the FindGameObjectsWithTag method, which finds all the objects with the tag "Pickup", and puts them into the picups array. The last line calculates the total, which is simply how big the pickups array is. 
+Remember that the Start Method runs once, right when the scene starts. The first line assigns m_text to be the text component of the text this script is attached to. The second line uses the FindGameObjectsWithTag method, which finds all the objects with the tag "Pickup", and puts them into the picups array. The last line calculates the total, which is simply how big the pickups array is. 
 
 After the Start Method and before the Update Method, add: 
 ```cs
@@ -170,7 +173,7 @@ void changeText(string text)
 	m_text.text = text;
 }
 ```
-This is a function that we've made that takes in a string, and assigns our variable m_text to be that string. We put this into a separate function so it's easier to read and use later on. 
+This is a function that we've made that takes in a string, and assigns our variable m_text to be that string. We've put this into a separate function so it's easier to read and use later on. 
 
 Inside the Update Method, add: 
 ```cs
@@ -207,19 +210,19 @@ public class PickupController : MonoBehaviour {
 }
 ```
 
-Inside the if statement, add this code: 
+Inside the if statement before "Destroy(this.gameObject);", add this code: 
 ```cs
 TextController text = Object.FindObjectOfType<TextController>();
 text.current += 1;
 ```
 
-This code finds the textController using Unity's FindObjectOfType method since we only have one TextController in our scene. It then updates the TextController's current counter by 1. This is good since TextController has no way of knowing when the player picks up a powerup on their own. 
+This code finds the textController using Unity's FindObjectOfType method since we only have one TextController in our scene. It then updates the TextController's current counter by 1. We need to add the code in the PickupController since TextController has no way of knowing when the player picks up a powerup on their own. 
 
 # Start Screen
 Most games we play don't start right away, there's usually a Start Screen with a big, pretty "Start" button. We can create one with the Unity UI. 
 
 ### Setting up the UI
-Since we can consider each scene to be a "level", we can just make a separate scene for our Start Screen. <DUPLICATE SCENE???>
+Since we can consider each scene to be a "level", we can just make a separate scene for our Start Screen. Duplicate the scene by going into your project window, selecting the current scene, and clicking Ctrl-D. (Cmd for Mac) This will make a copy of Level 1, so go ahead and rename this copy "StartScene"
 
 We can add a button to start the game by going to Create -> UI -> Button. If the Button isn't appearing, change the Y value to 0. Select the Button in the Hierarchy, and under it should be a Text component. Select this component, and in the Inspector change the text to "Start Game". 
 
@@ -261,10 +264,11 @@ Attaching scripts to UI objects is a bit different from normal gameobjects. Sele
 
 Select the + icon, and this will let us add our SceneSwitcher script. Drag the script from the Project Window to the box labeled "None (Object)". Then click on the box labeled "No Function", then select MonoScript -> string name. A box should appear under it. This is where we pass our argument, the name of the scene we want to switch to. Type in "Level1" (or whatever you named your first scene). 
 
-The last thing we need to do is include our two scenes into the build. 
+The last thing we need to do is include our two scenes into the build. In order to use sceneManagement methods, we need to have the scenes we want to switch over to in our current build. In the Tool bar, go to File -> Build Settings. Click "Add Open Scenes" and your scene should appear in the big box under "Scenes in Build". Then switch over to your Level_1 scene, and do the same thing. If you open your Build Settings, it should look like this: 
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-2-intro-to-Level-Design/build.png" width=600>
 
 # Summary
-Today we've gone over using Unity's prototyping assets, making the bounce pad powerup, creating a pickup counter, and creating a start screen. 
+In this workshop we've gone over using Unity's prototyping assets, making the bounce pad powerup, creating a pickup counter, and creating a start screen. 
 
 Your final scene should (but doesn't have to exactly) look like this: 
 <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-2-intro-to-Level-Design/finallevel.png" width=600>
@@ -391,27 +395,6 @@ public class SceneSwitcher : MonoBehaviour {
 }
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
