@@ -1,9 +1,8 @@
 # Game Studio Unity Workshop 3: Scene Management and Animations
 
 # Resources
-* [Last Week's Workshop]
+* [Last Week's Workshop](https://github.com/chanely99/gamestudio-f18/tree/master/workshop-2-intro-to-Level-Design)
 * [Fresh Project from Last Week](https://tinyurl.com/acm-roll-2)
-* [Last Week's Workshop]
 * [Suspicious Link](https://imgur.com/a/5TwcMHT)
 * [Scripts](https://tinyurl.com/game-scripts)
 
