@@ -136,11 +136,11 @@ Adding Rotation is very similar. Click on Add Property -> Transform -> Rotation.
 
 To clean this up a bit, we can use the curve tab. The curve tab is at the bottom of our Animation window. Clicking on it will open this graph:
 
-<img src= "" width=500>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-3-Scene-Management-And-Animations/curvycurve.png" width=500>
 
 This graph is just an illustration of the animation we've set. To make the animation smoother we can make it a line. Click on the end points of the curve, and a gray line should appear. Angle the lines until your curve looks like this: 
 
-<img src= "" width=500>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-3-Scene-Management-And-Animations/lineycurve.png" width=500>
 
 Press play again, and we have a smoother animation. Sweet. Now we can replace our old, lame pickup prefab with this one. Delete the old pickup, and drag the pickup with the animation into the Prefabs folder in the project window. Then replace any old pickups with this new prefab. 
 
@@ -188,7 +188,7 @@ We've previously mentioned using assets from the internet in your game. The Unit
 
 There's a LOT of assets here, and feel free to explore. For this workshop, search for "free architectural textures", and select the first option. It should look like [this](https://assetstore.unity.com/packages/2d/textures-materials/free-architectural-textures-23834) Click Download, and once it's done click Import. This will open up this window: 
 
-<img src= "" width=500>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-3-Scene-Management-And-Animations/importwindow.png" width=500>
 
 This is similar to how we imported the Standeard Assets in the last workshop. Select the Import Button, and once it's done a folder named "0_free_pack" will appear in your project window. 
 
@@ -196,7 +196,7 @@ Textures are kinda like Materials, but are simply images while Materials can inc
 
 We can also adjust how it looks by going into the inspector of the gameobject we added to, then under the component with the texture, go to Tiling. This will let us adjust how big we want the image to be. For example: 
 
-<img src= "" width=500>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-3-Scene-Management-And-Animations/comparetiling.png" width=500>
 
 # The Win Zone
 Our game's coming along nicely, all we need to add is a way to win. Let's create a goal where if a player hits it, it'll go back to the start screen. 
