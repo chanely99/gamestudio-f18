@@ -257,12 +257,14 @@ public void SwitchScene(string sceneName)
 
 This script uses the SceneManager method LoadScene to load the scene with whatever name we pass in. 
 
+We also need to attach this script to an empty GameObject in the scene to work. In the scene, click create => Create Empty. Attach our SceneSwitcher script to this empty GameObject and rename the GameObject to SceneController.
+
 ### Applying the Script
-Attaching scripts to UI objects is a bit different from normal gameobjects. Select the Button in the Hierarchy, and find this: 
+Attaching scripts to UI objects is a bit different from normal GameObjects. Select the Button in the Hierarchy, and find this: 
 
 <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-2-intro-to-Level-Design/buttonlist.png" width=600>
 
-Select the + icon, and this will let us add our SceneSwitcher script. Drag the script from the Project Window to the box labeled "None (Object)". Then click on the box labeled "No Function", then select MonoScript -> string name. A box should appear under it. This is where we pass our argument, the name of the scene we want to switch to. Type in "Level1" (or whatever you named your first scene). 
+Under the OnClick() function, drag our newly created GameObject SceneController into the box labeled "None (Object)". Then click on the box labeled "No Function", then select SceneSwitcher -> SwitchScene(). A box should appear under it. This is where we pass our argument, the name of the scene we want to switch to. Type in "Level1" (or whatever you named your first scene). This is the argument to the function we created in the SceneSwitcher script.
 
 The last thing we need to do is include our two scenes into the build. In order to use sceneManagement methods, we need to have the scenes we want to switch over to in our current build. In the Tool bar, go to File -> Build Settings. Click "Add Open Scenes" and your scene should appear in the big box under "Scenes in Build". Then switch over to your Level_1 scene, and do the same thing. If you open your Build Settings, it should look like this: 
 <img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-2-intro-to-Level-Design/build.png" width=600>
