@@ -11,35 +11,50 @@ Today's game is an entirely new kind of game, so we're going to create a new gam
 
 Now that we are in an empty void again, we can import standard assets like we did in the second workshop to make prototyping our game easier. Do this by goint to assets -> import package -> characters, then assets -> import package -> prototyping. 
 
-# Creating our Level
-Just like before, we can make a game quickly using the assets we imported. Go to Standard Assets ->Prototyping <CHECK IF THIS IS RIGHT> and select floor 64x1x63. Drag it into our scene. Next, drag in the wall prototype <ASK KEVIN WHAT THIS MEANS>
+You can also download Standard assets using [this link](https://drive.google.com/open?id=1GciTrxEXrEegq-WkGEAXiA3dF-6rzgc6)
 
-So far, we've been using the gameobject assets in from the standard assets package. But it also comes with really easy to use scripts as well. We're going to use the firstperson controller that comes with our character's standard assets <CHECK IF THIS IS RIGHT> <ADD SPECIFICS>. After attaching this, we can delete the main camera from the Hierarchy, since the fps controller has a camera attached to it.
+# Creating our Level
+Just like before, we can make a game quickly using the assets we imported. Before we start, though, remember that we've been trying to keep all the gameobjects in our level under one empty gameobject for better organization. Under the Hierarchy go to Create -> Create Empty, then rename it "level". 
+
+Next, go to Standard Assets ->Prototyping->Prefabs and select FloorPrototype64x1x64. Drag it into the Hierarchy to be a child of level. Next, drag in WallPrototype08x08x01. Scale it so that it's a good-enough looking wall, then duplicate it 3 times to create more. Move and rotate these duplicates so that we have a proper arena for our fps. For reference, my walls were scaled at (11,8,4) and ended up looking like this: 
+
+<img sexybox>
+
+So far, we've been using the gameobject assets in from the standard assets package. But it also comes with really easy to use scripts as well. We're going to use the firstperson controller that comes with our character's standard assets. Download the character standard assets by going to Assets -> Import Package -> Characters and importing it. There should now be a Characters folder in the Standard Assets folder. 
 
 # The FPS controller
-The FPS controller conveniently comes with a script, rigidbody, and camera for us. It comes with a few basic utilities, like moving around with the mouse, jumping, and running. All we need to add is an actual gameobject so we can see where it is. Go to Create->3D->Capsule and add a capsul to the the fps controller.<ACTUALLY FIND OUT WHAT THIS IS>
+Sometimes you don't need to reinvent the wheel while making your game, so instead of writing our own scripts to control the player from scratch, we can just use code someone else wrote for us. The FPS controller conveniently comes with a script, rigidbody, and camera. It comes with a few basic utilities, like moving around with the mouse, jumping, and running. All we need to add is an actual gameobject so we can see where it is. First go into Prefabs and drag the FPSController prefab in our Hierarchy. Next, use  Create->3D->Capsule to create a capsule, then make it a child of the the fps controller and reset its position to (0,0,0). We can delete the main camera from the Hierarchy, since the fps controller has a camera attached to it.
 
-We can also take the time to make our scene a bit nicer-looking. Feel free to drag in and move things as you like, but I'm going to use a 2x2x2 cube and 4 ramps leading to the cube. Remember that we can move things uniformly by holding down Ctrl(Cmd on mac), or snappning objects by holding down v. <WOW YOU SUCK COME ON MAKE THIS BETTER>
+We can also take the time to make our scene a bit nicer-looking. Feel free to drag in and move things as you like, but I'm going to use a CubePrototype02x02x02 and 4 RampPrototype04x02x02's leading to the cube. Remember that we can move things uniformly by holding down Ctrl(Cmd on mac), or snapping objects by holding down v. 
 
 For reference, my scene looks like this: 
 
-<INSERT IMAGE>
+<img levelwithramp>
 
-Because I like the ramp I made, I can make it into a prefab so we can use it over again. Remember that we can do this by making an empty game object named "Ramps", dragging the ramps to be under this gameobject, then dragging the gameobject into our project window. 
+Because I like ramps+cube configuration I made, I can make it into a prefab so we can use it over again. Remember that we can do this by making an empty game object named "Ramps", dragging the ramps to be under this gameobject, then dragging the gameobject into our project window. 
 
+<img sadpyramidprefab>
 
 # What We Do in the Shadows 
 Now if we click play and walk around our scene, notice how nothing has any shadows, even though we have light in our scene. Being able to cast shadows is controlled by the mesh renderer of the gameobjects, and by default our walls don't. Simply select the floors and walls in our scenes, and in the Inspector go to mesh renderer -> lighting, then select "cast shadows"After doing this, things will look normal again :)
 
 # Creating our Gun
 ### The Gun
-A third of "First Person Shooter" is shooter, so we should have a gun for our player to shoot out of. Under our first person character, create an empty gameobject called gun. Then, create a cube with Create -> 3D Object -> Cube<FIX>. Go to the Inspector -> Transform, and change its scale to (.2, .2, .5), and position it next to the gunbarrel <WHAT'S THE GUNBARREL>
+A third of "First Person Shooter" is shooter, so we should have a gun for our player to shoot out of. Under our first person character, create an empty gameobject called gun. Then, create a cube with Create -> 3D Object -> Cube. Change its scale to (.2,.2,.5) and make it a child of the gun and make sure its position is reset. Change the gun's position to be (.86, .23, 1.08). 
 
 ### The Crosshair
-Most FPS shooters come with a crosshair in the midldle of the screen so players know where they're aiming. As you probably guessed, this is a job for Unity's UI. It's just gonna be a green square in the middle of our screen. Create a UI image by going to Create -> UI Object -> image. Change the color to green by <INSERT HERE>. Remember that for UI, we need to specify where each component is exactly, or else it may be different on different screens. We can make sure our crosshair is in the middle by going to rect transform <KEVIN HELP>
+Most FPS shooters come with a crosshair in the midldle of the screen so players know where they're aiming. As you probably guessed, this is a job for Unity's UI. It's just gonna be a green square in the middle of our screen. Create a UI image by going to Create -> UI Object -> image. Change the color to green by clicking on the box next to "Color" in the inspector, and using the color window that pops up. Remember that for UI, we need to specify where each component is exactly, or else it may be different on different screens. We can make sure our crosshair is in the middle by first clicking on the target-looking box in Rect Transform. This should pop up: 
+
+<img anchorsaweigh>
+
+Notice that it tells us we can hold Shift to set pivot, and Alt to set position. We want to set the position to the middle, so hold alt, and then click the box in the middle. If we look in our game view, the box should have snapped to the middle of the screen, and if we adjust the size of our view, it will stay in the center like this: 
+
+<img dontbecrosshair>
+
+It's kind of big for a crosshair, so change the width and height to both be 5. 
 
 ### The Bullet
-We can make a bullet by going to Create -> 3D -> Sphere, then scaling it down to (.1, .1, .1). Our bullet should always come out of the end of our gun, so we should make a spawn point there. Create an empty gameobject called BulletSpawnPoint, and position it to the end of the gun. 
+We can make a bullet by going to Create -> 3D -> Sphere, then scaling it down to (.1, .1, .1). Make it a child of our gun, and adjust it to be somewhere near the end of our gun. Since our bullet should always come out from here we should make this position a spawn point. Create an empty gameobject called BulletSpawnPoint, and make its position the position you liked your bullet. 
 
 ### Shooting Script
 We want to add a script to control how we shoot. Create a new Script with Create -> C# Script, and rename it "Shooting" and attach it to the FirstPersonCharacter. Open it up in your code editr. 
@@ -67,9 +82,9 @@ This first checks if the player has "Fire1" pressed down. Now you may be thinkin
 
 After checking that our player has clicked their mouse, our script is going to create a clone object, and set it to Instantiate(lotsofwords). The Instantiate method in Unity is used to <ADD MORE>. We then set a velocity for our bullet, so it's immediately flying in the direction we want. 
 
-Now that our script is done, we just need to add a few more things. We need to add a rigidbody to our bullet by selecting the bullet, then in the Inspector go to Add Component, and typing in "rigidbody". We need to add this because our script is looking for a Rigidbody. Then, drag the Bullet prefab and BulletSpawnPoint into the script. It should look like this: 
+Now that our script is done, we just need to add a few more things. We need to add a rigidbody to our bullet by selecting the bullet, then in the Inspector go to Add Component, and typing in "rigidbody". We need to add this because our script is looking for a Rigidbody. Add the script to our FPS Controller. Then, drag the Bullet prefab and BulletSpawnPoint into their respective slots. It should look like this: 
 
-<ADDIMAGE>
+<img = shootinginspector>
 
 # Bullet Script
 Notice how the bullet's not disappearing. If we just keep on shooting, we could end up with a TON of bullets. We can change this by making our bullet destroy itself anytime it hits a wall. 
@@ -95,7 +110,7 @@ private void OnCollisionEnter(Collision collision)
     }
 ```
 
-That way we can first check that we're not triggered by something tagged "Player" (! means not in C#). We also need to add a tag to our player by selecting our Player, then going to Add Tag -> Player<CHECK IF TRUE>
+That way we can first check that we're not triggered by something tagged "Player" (! means not in C#). We also need to add a tag to our player by selecting our Player, then going to Add Tag -> Player.
 
 # Enemies
 It's no fun shooting randomly at things, all good FPS games have enemies to shoot at. We create a Basic enemy with Create -> 3D Object -> Capsule. Go to the Inspector and add a Rigidbody with Add Component -> Rigidbody. Then under Rigidbody make its mass 50, then select Contraints and check off X, Y, and Z for Freeze Rotation. 
@@ -162,8 +177,22 @@ private void OnCollisionEnter(Collision collision)
 
 ``` 
 
-That finishes the EnemyController Script! Notice that we deduct the health if the gameobject hitting the enemy has a "Bullet Tag". Add this tag the same way we did with the player, and we're all set!
+That finishes the EnemyController Script! Notice that we deduct the health of whatever we hit if the gameobject hitting the enemy has a "Bullet Tag". Add this tag the same way we did with the player, and we're all set!
+
 # Scripts
+
+BulletScript.cs
+```cs
+public class BulletScript : MonoBehaviour{
+private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Player"))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+}
+```
 
 Shooting.cs 
 ```cs
@@ -227,3 +256,15 @@ public class EnemyController : MonoBehaviour {
 }
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
