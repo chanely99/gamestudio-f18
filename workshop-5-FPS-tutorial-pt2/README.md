@@ -54,7 +54,7 @@ It's just a field, though. Add another texture (I chose SandAlbedo) the same way
 Everything else in this terrain section is really up to you - feel free to play around with the options. 
 
 ### Raising/Lowering Terrain
-These two buttons: <img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/raiseterrainbuttons.png" width = 30> let you make hills or valleys by raising the terrain up or down. Select the first one, and click on some point on your terrain. If you hold your mouse down, it'll raise even higher. The second button lets you specify a specific height, and is useful for making features like plateaus. For example, if I made this:
+These two buttons: <img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/raiseterrainbuttons.png" width = 60> let you make hills or valleys by raising the terrain up or down. Select the first one, and click on some point on your terrain. If you hold your mouse down, it'll raise even higher. The second button lets you specify a specific height, and is useful for making features like plateaus. For example, if I made this:
 
 <img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/mountaincluster.png" width = 500>
 
