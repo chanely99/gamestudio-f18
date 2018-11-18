@@ -193,7 +193,7 @@ if(health<=0)
 This first checks that the playerPos isn't null, since trying to access parts of a null variable leads to sadness. If not, it then creaets a vector in the direction of the player. Then, it adds the vector as a force to the enemy's rigidbody rb. 
 
 # Final Touches
-That's it for new/updating scripts. Create 3 empty gameObjects named SpawnPos, and add it to the slots of the spawnPositions array in the GameController. Set maxEnemies to 3 (or 300 if you're particularly bold), the EnemyController speed to 5, and the EnemyController's physics material to "Metal", just so it slides better. 
+That's it for new/updating scripts. Create 3 empty gameObjects named SpawnPos, and add it to the slots of the spawnPositions array in the GameController. Set maxEnemies to 3 (or 300 if you're particularly bold), the EnemyController speed to 500, and the EnemyController's physics material to "Metal", just so it slides better. 
 
 Yay!
 
