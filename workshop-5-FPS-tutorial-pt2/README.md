@@ -31,7 +31,7 @@ So what is a terrain? It's a special object Unity uses for rendering large scene
 
 You may have noticed that Unity running slower than usual after adding the terrain. This is because it's trying to generate a lighint map every time something changes on the terrain, which takes a LOT of power. Since we're editing the scene, we can turn this off by going to window -> Lighting -> Settings, then un-checking the "Auto Generate" checkbox: 
 
-<img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/nolightpls.png" width = 500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/nolightpls.png" width = 500>
 
 In the same window, we can add fog to improve depth perception and make our scene cooler. Check off the box next to Fog under Other Settings, and make sure the density is .01 and mode is "Exponential Squared". You can also change the fog to whatever color you want. 
 
@@ -42,7 +42,7 @@ We also want to add walls to the Terrain so the player can't fall off. Create a 
 
 We don't really want giant white walls at the end of a nice, grassy scene though, so we can turn off the renderers of the walls, since we only need their colliders. Do this by un-checking the box next to "Mesh Renderer" in the Inspector for each wall, so it looks like this: 
 
-<img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/boxterrainbutnobox.png" width = 500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/boxterrainbutnobox.png" width = 500>
 
 ### Brushes
 Brushes are kind of like paintbrushes irl, they let you "paint" the terrain with whatever features you want. In the inspector, you can edit the brush size, opacity, etc. and there's some pretty nifty shapes you can make your brush be as well. To use the brush, simply hover over the terrain, and you should see a blue circle indicating where your feature will go. Next, just click, and hold for as long as you want to add features. 
@@ -54,17 +54,17 @@ It's just a field, though. Add another texture (I chose SandAlbedo) the same way
 Everything else in this terrain section is really up to you - feel free to play around with the options. 
 
 ### Raising/Lowering Terrain
-These two buttons: <img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/raiseterrainbuttons.png" width = 30> let you make hills or valleys by raising the terrain up or down. Select the first one, and click on some point on your terrain. If you hold your mouse down, it'll raise even higher. The second button lets you specify a specific height, and is useful for making features like plateaus. For example, if I made this:
+These two buttons: <img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/raiseterrainbuttons.png" width = 30> let you make hills or valleys by raising the terrain up or down. Select the first one, and click on some point on your terrain. If you hold your mouse down, it'll raise even higher. The second button lets you specify a specific height, and is useful for making features like plateaus. For example, if I made this:
 
-<img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/mountaincluster.png" width = 500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/mountaincluster.png" width = 500>
 
 weird cluster of mountains with the first button, I can use the second button to turn it into this: 
 
-<img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/plateau.png" width = 500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/plateau.png" width = 500>
 
 By changing the brush size and adding different textures, you can also add neat-looking things like this: 
 
-<img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/cooltexture.png" width = 500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/cooltexture.png" width = 500>
 
 ### Adding Trees
 The fourth button will let you add trees. First, select the kind of tree you want to place down by clicking on Edit Trees -> Add Tree. Click on the black circle next to the empty prefab box, and choose your favorite. Now, if you click on your terrain with this option, it'll place trees in the blue area. You can adjust the radius with the Brush Size bar, and how tall the trees are with the Tree Height bar. 
@@ -81,7 +81,7 @@ To fix the trees, we can add a "Wind Zone" component to the terrain by going the
 
 You can also add water by first creating a depression to fill with water, then adding Standard Assets -> Environment -> Water -> Water -> WaterProDaytime to the depression and sizing it so it fits. For reference, mine looked like this: 
 
-<img = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/water.png" width = 500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-5-FPS-tutorial-pt2/water.png" width = 500>
 
 # DayCycler
 You may have noticed that every time we create a new scene, it always comes with a Main Camera, and a Directional Light. Light is handled in several different ways in Unity([here](https://docs.unity3d.com/Manual/Lighting.html) to learn more). Directional light is usually used for a sunlight effect, since it represents really large, infinitely far sources of light. Because the distance between the source and our scene isn't defined, the light doesn't fade or change. 
