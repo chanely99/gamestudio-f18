@@ -99,7 +99,7 @@ Repeat the same process with BirdHero_2 to create the Die animation.
 
 Once our animations are made, we need a way to change between them. Open up the State Machine in the Animator tab. It should look like this: 
 
-<img src = https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/animator.png" width=500>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/animator.png" width=500>
 
 Click on the + button above "List is Empty", and add two Triggers: flap, and die. 
 
@@ -107,7 +107,8 @@ We now need to designate transitions. Right click the idle state to add a new tr
 
 We can do the same for flap. Right click the idle state to add a new transition, and drag it to Flap. But this time, we're going to keep has exit time since it'll go back to idle after running. 
 
-
+All three animations consist of a single frame, each with their respective sprites like so: 
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/idle.png" width=200><img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/flap.png" width=200><img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/die.png" width=200>
 # Adding Animation to BirdController
 Add this to the the other variables: 
 ```cs
@@ -288,7 +289,7 @@ Drag the ColumnSprite from the Sprites Folder to the Hierarchy, and set the sort
 
 <img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/gamewithcols.png" width=500>
 
-Make an empty gameobject called Columns, and make the two columns children of this gameobject. Because we want to move the columns with the ground, add a Rigidbody2D, and set it to kinematic so it's not affected by gravity. Also add a BoxCollider2D and set it to be in the gap between the two columns. That way, we can check if the player passes through, and increment the score. Check off IsTrigger. The last thing we need to do is create a ColumnController script. Create it and open it up in your code editor. 
+Make an empty gameobject called Columns, and make the two columns children of this gameobject. Because we want to move the columns with the ground, add a Rigidbody2D, and set it to kinematic so it's not affected by gravity. Also add a BoxCollider2D and set it to be in the gap between the two columns. That way, we can check if the player passes through, and increment the score. Be sure to check off IsTrigger so that the player can pass through. The last thing we need to do is create a ColumnController script to handle "respawning" the columns. Create it and open it up in your code editor. 
 
 Before the Start Method, add these variables: 
 ```cs
@@ -307,7 +308,7 @@ private float spawnXPosition = 10f;
 
 private float timeSinceLastSpawned;
 ```
-There's a lot of variables here, but most of them are pretty intuitive. "columns" is an array, which if you recall is basically a list of other gameobjects. 
+There's a lot of variables here, but most of them are pretty intuitive. "columns" is an array, which if you recall is basically a list of other gameobjects. We're making a "pool" of objects, which is basically objects we're going to move to the right of the screen as soon as they pass the left side of the screen. ColumnMin and ColumnMax are the furthest up and down the columns can spawn as. 
 
 Inside the Start Method, add: 
 ```cs
@@ -339,7 +340,7 @@ Our Update Method is first going to incrememnt the timeSinceLastSpawned by 1 eac
 
 If so, it'll reset the timeSinceLastSpawned, and generate a random y position for the column. It'll then move the column the player just passed to be just right offscreen of the player. 
 
-Awesome. All we need to do now is take the columns we created and drag them into our project window to make them a prefab. 
+Awesome. First attach this script to the GameController. Take the column object we created and drag it into our project window to make it a prefab. 
 
 # Scripts
 BirdController.cs
