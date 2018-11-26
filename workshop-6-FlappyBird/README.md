@@ -3,9 +3,14 @@
 # Resources
 * [Assets for Today's Workshop](https://oc.unity3d.com/index.php/s/qTyIUQc2swvpFE7?_ga=2.63544873.721226498.1543123809-587483059.1535924028)
 * [Unity Official Documentation](https://docs.unity3d.com/Manual/index.html)
+* [Video of this workshop](https://unity3d.com/learn/tutorials/topics/2d-game-creation/project-goals?playlist=17093)
 
 # Workshop Content 
-* 
+* Setting Up 
+* BirdController
+* Animations Review
+* GameController
+* ColumnController
 
 # Setting Up
 This week we're creating a 2D game, so be sure to check off the box that says 2D before your create it. Otherwise, everything else is the same as setting up a 3D game. When you enter Unity, the editor will look basically the same, except the Scene View will be a flat area rather than a 3D space.
@@ -14,11 +19,11 @@ First thing we want to do is import the assets we'll be using for our game. Down
 
 Once that's done, go into the Sprites folder, and select birdhero. In 2D, we use sprites, or artwork, to represent backgrounds, characters, and everything in between. Notice that after clicking on it, the inspector window looks like this: 
 
-<img src= birdheroinspector>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/birdheroinspector.png" width=500>
 
 This is because our birdhero actually has 3 sprites attached to it,  which we'll need to separate for Unity. We can do this by first changing Sprite Mode from Single to Multiple, then clicking on Sprite Editor. (You'll get a warning for "Unapplied import settigs" but just ignore it) The sprite editor looks like this: 
 
-<img src = spriteeditor>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/spriteeditor.png" width=500>
 
 Click on Slice, and in the window that pops up, select Slice. This'll have Unity automatically slice up sprites for us, which is very convenient. Once this is done, you should notice very faint, gray boxes around the three birds. Now if you exit the Sprite Editor, you'll notice that BirdHero now has BirdHero_0 to 3 under it. These are the individual sprites we got from our spritesheet. 
 
@@ -42,14 +47,14 @@ private bool isDead;
 private Rigidbody2D rb;
 public float upForce = 200f;
 ```
-<EXPLANATION>
+These are kinda intuitive, just variables we're going to use. 
 
 Inside the Start Method, add: 
 ```cs
 isDead = false;
 rb = GetComponent<Rigidbody2D>();
 ```
-<EXPLANATION>
+Our bird should not initially be dead or else the game would suck, and the second line will set our rb variable to be the RigidBody attached to this gameobject. 
 
 Inside the Update Method, add: 
 ```cs
@@ -62,6 +67,7 @@ if (!isDead)
 		}
 }
 ```
+This makes sure that each frame, our code will check if the bird is dead. If not, it'll then check if the player has clicked their mouse. If so, it'll add a velocity going up. 
 
 If you save the script and press play, we can move up and down. All we need to add is a check that if we hit something, we "die". 
 
@@ -83,23 +89,38 @@ First create an Animations folder in your Project  Add it with Window -> Animati
 
 In the Animation window, click on Add Property -> Sprite Renderer -> "+" next to Sprite here: 
 
-<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/addsprite.png">
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/addsprite.png" width=500>
 
 First delete the second keyframe at 1:00. That's all we need to do for Idle, so we can create our next clip, Flap, by selecting the tab labled "Idle" next to "Samples", then selecting "Create new clip" and naming this new clip Flap. 
 
-Flap is basically the same as Idle, except we want to change to the BirdHero_1 sprite in set intervals. Go back to Idle, and copy the keyframe by selecting it with your mouse, then going to Edit -> Copy in the toolbar. Go to Flap, and go to Edit -> Paste to add the keyframe in. 
+Flap is basically the same as Idle, except we want to change to the BirdHero_1 sprite in set intervals. Go back to Idle, and copy the keyframe by selecting it with your mouse, then going to Edit -> Copy in the toolbar. Go to Flap, and go to Edit -> Paste to add the keyframe in. For this Animation, we just want it to change to the Flap sprite. Do this by going to Sprite Renderer, and changing the sprite to be BirdHero_1. 
+
+Repeat the same process with BirdHero_2 to create the Die animation. 
+
+Once our animations are made, we need a way to change between them. Open up the State Machine in the Animator tab. It should look like this: 
+
+<img src = https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/animator.png" width=500>
+
+Click on the + button above "List is Empty", and add two Triggers: flap, and die. 
+
+We now need to designate transitions. Right click the idle state to add a new transition, and drag it to Die. Click on the arrow, and in the Inspector, uncheck "Has Exit Time", since once the player is dead, it should stay dead. Under Conditions, select the + button and select die. 
+
+We can do the same for flap. Right click the idle state to add a new transition, and drag it to Flap. But this time, we're going to keep has exit time since it'll go back to idle after running. 
+
 
 # Adding Animation to BirdController
 Add this to the the other variables: 
 ```cs
 private Animator anim;
 ```
-<EXPLANATION>
+This variable is going to hold the animator attached to the bird. 
+
 Add this to the inside of Start: 
 ```cs
 anim = GetComponent<Animator>();
 ```
-<EXPLANATION>
+This gets the animator attached to the bird, and assigns it to anim. 
+
 Change the inside of the Update Method to this: 
 ```cs
 if (!isDead)
@@ -113,13 +134,15 @@ if (!isDead)
     }
 
 ```
-<EXPLANATION>
+This will play the Flap animation  when the player clicks the mouse.
+
 Change the inside of OnCollisionEnter Method to this: 
 ```cs
 isDead = true;
 anim.SetTrigger("Die");
 ```
-<EXPLANATION>
+This'll play the Die animation when the player dies. 
+
 # Adding UI
 Create a UI text with Create -> UI -> Text in the Hierarchy. Delete the EventSystem, since we don't really need it. Change the text to read "Score: ". Change the size to 32, font to luckiestguy, and allign the text to be in the center of the textbox. Set the Horizontal and Vertical Overflow to be Overflow rather than Truncate. 
 
@@ -146,6 +169,7 @@ private int score = 0;
 public bool gameOver = false;               
 public float scrollSpeed = -1.5f;
 ```
+These are mostly pretty intuitive, just variables we're going to use. We're including another GameController Instance in order to make sure that this is the only gamecontroller object in the scene. 
 
 Replace the Start Method with this: 
 ```cs
@@ -157,6 +181,7 @@ void Awake()
             Destroy (gameObject);
     }
 ```
+This method is how we actually check that this is the only gamecontroller object in the scene. If not, it'll destroy itself. 
 
 Add this inside the Update Method: 
 ```cs
@@ -165,6 +190,8 @@ if (gameOver && Input.GetMouseButtonDown(0))
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 ```
+
+This will reset the game if it's in the gameover screen, and if the player clicks the mouse. 
 
 Next, add a BirdScored function: 
 ```cs
@@ -176,6 +203,7 @@ public void BirdScored()
         scoreText.text = "Score: " + score.ToString();
     }
 ```
+This function increments the score whenever it's called. It will first check if it's gameover. If so, we can't score, so we'll end the function early by returning. Otherwise, we'll increase the score counter, then update the UI text to be Score and the new score. 
 
 Finally, add the BirdDied function: 
 ```cs
@@ -185,15 +213,21 @@ public void BirdDied()
         gameOver = true;
     }
 ```
+This function is going to be called if the bird died, so it'll "turn on" the gameover text, and set the gameOver variable to true. 
+
 
 To make sure this is actually called when the bird dies, we need to call it from our BirdController Script. Open that up in your code editor, and add this to the list of variables: 
 ```cs
 public GameController GameController; 
 ```
+This'll make sure the Bird has access to the GameController. 
+
 And add this to the OnCollisionEnter function: 
 ```cs
 GameController.instance.BirdDied();
 ```
+This'll call the BirdDied function when the Bird dies. 
+
 # Scrolling Background
 First we want to add a ribidbody2D to our ground gameobject, then set the body type to Kinematic in the inspector, since we don't want the ground to fall, just move. Next, create a Scrolling script and add it to the ground. Open it up in your code editor. 
 
@@ -202,14 +236,14 @@ Add these variables before the Start Method:
 public GameController GameController; 
 private Rigidbody2D rb;
 ```
-<EXPLANATION>
+These two variables will hold a reference to our GameController and the object's rigidbody, respectively.
 
 Add this to the inside of the Start Method: 
 ```cs
 rb = GetComponent<Rigidbody2D>();
 rb.velocity = new Vector2(GameController.instance.scrollSpeed, 0);
 ```
-<EXPLANATION>
+This will assign the rb variable to be the rigidbody attached to the gameobject, and make it have a velocity with the value of the scrollspeed we assigned in the GameController. 
 
 Add this to the inside of the Update Method: 
 ```cs
@@ -218,7 +252,7 @@ if (GameController.instance.gameOver )
 		rb.velocity = Vector2.zero;
 	}
 ```
-<EXPLANATION>
+Each frame, the ground will check if the game is over or not. If so, it'll stop scrolling. 
 
 # Repeat the Background
 We need 2 grounds to make sure that the bird is infinitely scrolling, so select the ground in the Hierarchy, then duplicate it with CTRL-D. Then, move it to be right of the first ground.
@@ -230,26 +264,29 @@ Before the Start Method, add:
 private BoxCollider2D groundCollider;
 private float groundLength;
 ```
-<EXPLANATION>
+Thse are two variables that'll hold the Collider attached to this object, and the length of the ground respectively. 
+
 Inside the Start Method, add: 
 ```cs
 groundCollider = GetComponent<BoxCollider2D>();
 groundLength = groundCollider.size.x;
 ```
-<EXPLANATION>
+This will assign the two variables to be the box collider on this object, and the size of the collider. 
+
 Inside the Update Method, add: 
 ```cs
 if(transform.position.x < -groundLength)
 	{
-		RepositionBackground();
+		Vector2 offset = new Vector2(groundLength * 2f, 0);
+		ransform.position = (Vector2)transform.position + offset;
 	}
 ```
-<EXPLANATION>
+Each frame we're going to check if the camera is past the ground. If so, it'll move the ground to be on the right side of the other ground object. 
 
 # Adding Columns
 Drag the ColumnSprite from the Sprites Folder to the Hierarchy, and set the sorting layer to be the Midground. Bring it down to be y = -4. Add a Box Collider, and edit the collider so that it's actually around the column. Duplicate it, and set the rotation to z = 180 and position y = 8. For reference, mine looks like this: 
 
-<img src = "gamewithcols">
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/gamewithcols.png" width=500>
 
 Make an empty gameobject called Columns, and make the two columns children of this gameobject. Because we want to move the columns with the ground, add a Rigidbody2D, and set it to kinematic so it's not affected by gravity. Also add a BoxCollider2D and set it to be in the gap between the two columns. That way, we can check if the player passes through, and increment the score. Check off IsTrigger. The last thing we need to do is create a ColumnController script. Create it and open it up in your code editor. 
 
@@ -270,6 +307,7 @@ private float spawnXPosition = 10f;
 
 private float timeSinceLastSpawned;
 ```
+There's a lot of variables here, but most of them are pretty intuitive. "columns" is an array, which if you recall is basically a list of other gameobjects. 
 
 Inside the Start Method, add: 
 ```cs
@@ -280,6 +318,7 @@ for(int i = 0; i < columnPoolSize; i++)
 		columns[i] = (GameObject)Instantiate(columnPrefab, objectPoolPosition, Quaternion.identity);
 	}
 ```
+Because it's the beginning of the game, the timeSinceLastSpawned will be set to 0. Next, it'll create the columns object by assigning it space in memory with the "new" keyword. The final part of this code is a for loop, which if you remember is a way to repeat commands multiple times in programming. Our loops is going to make columnPoolSize number of columns. 
 
 Inside the Update Method, add: 
 ```cs
@@ -296,6 +335,9 @@ if (GameController.instance.gameOver == false && timeSinceLastSpawned >= spawnRa
 		}
 	}
 ```
+Our Update Method is first going to incrememnt the timeSinceLastSpawned by 1 each second using the built-in Time.deltaTime function. Then, it's going to check that the game isn't over, and it's time to spawn according to the spawnrate we set. 
+
+If so, it'll reset the timeSinceLastSpawned, and generate a random y position for the column. It'll then move the column the player just passed to be just right offscreen of the player. 
 
 Awesome. All we need to do now is take the columns we created and drag them into our project window to make them a prefab. 
 
