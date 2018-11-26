@@ -19,7 +19,7 @@ First thing we want to do is import the assets we'll be using for our game. Down
 
 Once that's done, go into the Sprites folder, and select birdhero. In 2D, we use sprites, or artwork, to represent backgrounds, characters, and everything in between. Notice that after clicking on it, the inspector window looks like this: 
 
-<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/birdheroinspector.png" width=500>
+<img src= "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/birdheroinspector.png" width=200>
 
 This is because our birdhero actually has 3 sprites attached to it,  which we'll need to separate for Unity. We can do this by first changing Sprite Mode from Single to Multiple, then clicking on Sprite Editor. (You'll get a warning for "Unapplied import settigs" but just ignore it) The sprite editor looks like this: 
 
