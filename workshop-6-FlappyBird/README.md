@@ -70,10 +70,11 @@ To do this, add this function to BirdController:
 private void OnCollisionEnter2D(Collision2D collision)
 {
     isDead = true;
+    rb.velocity = Vector2.zero; 
 }
 
 ```
-<EXPLANATION>
+We want our bird to die if it collides with anything, either the ground, or the columns. Because OnCollisionEnter is called when that happens, we can just set the isDead variable to true, then set the velocity to 0 so the bird doesn't keep moving forward. 
 
 # Animating the Bird
 Remember that we can create and control animations in Unity using the Animation tab. We want to add a Flapping, Idle, and Dead. 
@@ -82,7 +83,7 @@ First create an Animations folder in your Project  Add it with Window -> Animati
 
 In the Animation window, click on Add Property -> Sprite Renderer -> "+" next to Sprite here: 
 
-<img src = AddSprite>
+<img src = "https://github.com/chanely99/gamestudio-f18/blob/master/workshop-6-FlappyBird/addsprite.png">
 
 First delete the second keyframe at 1:00. That's all we need to do for Idle, so we can create our next clip, Flap, by selecting the tab labled "Idle" next to "Samples", then selecting "Create new clip" and naming this new clip Flap. 
 
@@ -245,6 +246,59 @@ if(transform.position.x < -groundLength)
 ```
 <EXPLANATION>
 
+# Adding Columns
+Drag the ColumnSprite from the Sprites Folder to the Hierarchy, and set the sorting layer to be the Midground. Bring it down to be y = -4. Add a Box Collider, and edit the collider so that it's actually around the column. Duplicate it, and set the rotation to z = 180 and position y = 8. For reference, mine looks like this: 
+
+<img src = "gamewithcols">
+
+Make an empty gameobject called Columns, and make the two columns children of this gameobject. Because we want to move the columns with the ground, add a Rigidbody2D, and set it to kinematic so it's not affected by gravity. Also add a BoxCollider2D and set it to be in the gap between the two columns. That way, we can check if the player passes through, and increment the score. Check off IsTrigger. The last thing we need to do is create a ColumnController script. Create it and open it up in your code editor. 
+
+Before the Start Method, add these variables: 
+```cs
+public GameController GameController;
+public GameObject columnPrefab;                            
+public int columnPoolSize = 5;                                
+public float spawnRate = 3f;                        
+public float columnMin = -1f;                    
+public float columnMax = 3.5f;                 
+
+private GameObject[] columns;                            
+private int currentColumn = 0;                                
+
+private Vector2 objectPoolPosition = new Vector2 (-15,-25);     
+private float spawnXPosition = 10f;
+
+private float timeSinceLastSpawned;
+```
+
+Inside the Start Method, add: 
+```cs
+timeSinceLastSpawned = 0f;
+columns = new GameObject[columnPoolSize];
+for(int i = 0; i < columnPoolSize; i++)
+	{
+		columns[i] = (GameObject)Instantiate(columnPrefab, objectPoolPosition, Quaternion.identity);
+	}
+```
+
+Inside the Update Method, add: 
+```cs
+timeSinceLastSpawned += Time.deltaTime;
+if (GameController.instance.gameOver == false && timeSinceLastSpawned >= spawnRate) 
+	{   
+		timeSinceLastSpawned = 0f;
+		float spawnYPosition = Random.Range(columnMin, columnMax);
+		columns[currentColumn].transform.position = new Vector2(spawnXPosition, spawnYPosition);
+			currentColumn ++;
+		if (currentColumn >= columnPoolSize) 
+		{
+			currentColumn = 0;
+		}
+	}
+```
+
+Awesome. All we need to do now is take the columns we created and drag them into our project window to make them a prefab. 
+
 # Scripts
 BirdController.cs
 ```cs
@@ -279,6 +333,7 @@ public class BirdController : MonoBehaviour {
 	private void OnCollisionEnter2D(Collision2D collision)
     {
         isDead = true;
+        rb.velocity = Vector2.zero; 
         anim.SetTrigger("Die");
     }
 
