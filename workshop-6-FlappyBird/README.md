@@ -159,7 +159,9 @@ In your code editor, we ant a way to check if the bird died, and make the GameOv
 Add this to the top of the script: 
 ```cs
 using UnityEngine.UI; 
+using UnityEngine.SceneManagement; 
 ```
+These two lines will let use use built-in Unity methods to handle UI and loading scenes. 
 
 Add these variables before the Start Method: 
 ```cs
@@ -293,7 +295,6 @@ Make an empty gameobject called Columns, and make the two columns children of th
 
 Before the Start Method, add these variables: 
 ```cs
-public GameController GameController;
 public GameObject columnPrefab;                            
 public int columnPoolSize = 5;                                
 public float spawnRate = 3f;                        
@@ -308,7 +309,9 @@ private float spawnXPosition = 10f;
 
 private float timeSinceLastSpawned;
 ```
-There's a lot of variables here, but most of them are pretty intuitive. "columns" is an array, which if you recall is basically a list of other gameobjects. We're making a "pool" of objects, which is basically objects we're going to move to the right of the screen as soon as they pass the left side of the screen. ColumnMin and ColumnMax are the furthest up and down the columns can spawn as. 
+Instead of generating an infinite number of columns and wasting energy destroying them as soon as they go offscreen, we're only going to have 5 columns, which we are simply going to move to the right of the screen as soon as they go too far left. 
+
+These variables are mostly intuitive, so I'm not going to go super in detail about it. SpawnXPosition is where to the right they spawn. "columns" is an array, which if you recall is a programming object that's a list of other objects. It will hold our actual columns. 
 
 Inside the Start Method, add: 
 ```cs
@@ -342,6 +345,30 @@ If so, it'll reset the timeSinceLastSpawned, and generate a random y position fo
 
 Awesome. First attach this script to the GameController. Take the column object we created and drag it into our project window to make it a prefab. 
 
+# Common Problems
+"LoadScene is not defined" or "Text is not defined"
+    This means Unity doesn't know what those are, since they're methods that are included in the library. To fix this, add either "using UnityEngine.UI" or "using UnityEngine.SceneManagement"
+
+The Bird is going through the Ground
+    This means either the bird or the ground doesn't have a collider attached. Go to the inspector of both, and make sure that the bird has a polygon collider, and the ground has a box collider. Also check that the box collider for the ground is adjusted to be around where the ground is. 
+
+The Animation isn't happening
+    This unfortunately can mean a number of things. First check that flap and die are parameters in your Animator, and that they appear in under Parameters in the left column of Animator. If that's good, make sure that the transitions between Flap and Idle and Die and Idle have flap and die Under Conditions in the Inspector. If that's good, check that the keyword in "anim.SetTrigger()" is exactly the same as the condition in the animator - Unity is case-sensitive. 
+
+Null Reference blah blah
+    This means that you haven't assigned one or more of the public variables for one of your scripts. Be sure that you drag in the ScoreText in the scoretext box for your gameController, the Column prefab in the columnPrefab space in your Column pool, etc. 
+
+My bird can go offscreen if I keep clicking
+    Yup. If you do everything perfectly in this tutorial that's one thing we didn't really address. Try to fix it yourself using what we covered. (Hint: Box Collider)
+
+The Game looks weird when scrolling and there's blue space around it
+    We ran into this problem too during the actual workshop. It's an easy fix though - in the Game Window, change the Aspect Ratio(the button next to Display 1) to 16:9. 
+
+Literally any other problem
+    If it's something like an error with the code, copy the error into google, and see what the problem might be, usually it's something small. If it's something more Unity-specific, especially with the animation, that might be a harder fix. First check through the steps in this tutorial and make sure you followed everything. If that doesn't work, feel free to reach out to me or any other officers in the club. 
+
+Also PLEASE reach out to me if there's a problem with my code or explanations here. I'll really appreciate it. 
+
 # Scripts
 BirdController.cs
 ```cs
@@ -369,7 +396,7 @@ public class BirdController : MonoBehaviour {
             {
                 rb.velocity = Vector2.zero;
                 rb.AddForce(new Vector2(0,upForce));
-                anim.SetTrigger("Flap");
+                anim.SetTrigger("flap");
             }
         }
 	}
@@ -377,7 +404,7 @@ public class BirdController : MonoBehaviour {
     {
         isDead = true;
         rb.velocity = Vector2.zero; 
-        anim.SetTrigger("Die");
+        anim.SetTrigger("die");
     }
 
 }
@@ -389,6 +416,7 @@ GameController.cs
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; 
+using UnityEngine.SceneManagement; 
 
 public class GameController : MonoBehaviour {
 	public GameObject gameOverText;
@@ -411,7 +439,10 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (gameOver == true && Input.GetMouseButton(0))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 	}
 	public void BirdDied()
 	{
@@ -442,7 +473,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Scrolling : MonoBehaviour {
-	public GameController GameController; 
 	private Rigidbody2D rb;
 	// Use this for initialization
 	void Start () {
@@ -496,7 +526,6 @@ using UnityEngine;
 
 public class ColumnPool : MonoBehaviour {
 
-	public GameController GameController;
 	public GameObject columnPrefab;                            
 	public int columnPoolSize = 5;                                
 	public float spawnRate = 3f;                        
